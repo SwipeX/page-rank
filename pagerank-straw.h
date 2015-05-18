@@ -21,7 +21,7 @@ void click(SparseMatrix S, double *C, double d, double *y0, double *y1,
 
 
 int solve(SparseMatrix S, double *C, double d, double *y0, double *y, double epsilon,
-		void (* spmv)(double * w, SparseMatrix S, double * z)) ;
+		void (* spmv)(double * w, SparseMatrix S, double * z), int startIdx, int endIdx) ;
 // Repeat click until two successive y's are closer than epsilon.
 // d is the damping parameter
 // y0 is the initial probability distribution vector.
