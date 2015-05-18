@@ -32,13 +32,21 @@ int solve(SparseMatrix S, double *C, double d, double *y0, double *y, double eps
 
 /////// implementations ///////////////
 
-void strawman_mvpSM(double * y, SparseMatrix S, double *x,int startIdx, int endIdx) {
+void strawman_mvpSM(double * y, SparseMatrix S, double *x, int startIdx, int endIdx) {
 // Matrix-vector product, Sparse Matrix:
 // For length S->rowdim vector y, length S->coldim vector x, compute y = S*x.
+    double * local;
+	local = y;
 	int i, k;
-	for (i = 0; i < S->rowdim; ++i) y[i] = 0; 
-	for (k = 0; k < S->nnz; ++k) 
-		y[S->row[k]] += S->val[k] * x[S->col[k]];
+
+	for (i = 0; i < S->rowdim; ++i){
+	local[i] = 0;
+	}
+
+	for (k = startIdx; k < S->nnz && k<endIdx; ++k) {
+		local[S->row[k]] += S->val[k] * x[S->col[k]];
+    }
+    MPI_Allreduce(local, y, S->rowdim, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
 }
 
 void scale(double *C, SparseMatrix S) {
@@ -55,7 +63,7 @@ void click(SparseMatrix S, double *C, double d, double *y0, double *y1,
 		void (* spmv)(double *, SparseMatrix, double *, int startIdx, int endIdx),int startIdx, int endIdx) {
 // compute y1 = (1-d)u + d S y0.
 	int i;
-	spmv(y1, S, y0,startIdx, endIdx);
+	spmv(y1, S, y0, startIdx, endIdx);
 	// true S is given S + 1/n's in cols where given S is entirely zero.
 	// get the contribution of the zero columns 
 	double xs = 0;
