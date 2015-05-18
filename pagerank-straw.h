@@ -52,7 +52,7 @@ void scale(double *C, SparseMatrix S) {
 }
 
 void click(SparseMatrix S, double *C, double d, double *y0, double *y1,
-		void (* spmv)(double *, SparseMatrix, double *),int startIdx, int endIdx) {
+		void (* spmv)(double *, SparseMatrix, double *, int startIdx, int endIdx),int startIdx, int endIdx) {
 // compute y1 = (1-d)u + d S y0.
 	int i;
 	spmv(y1, S, y0,startIdx, endIdx);
@@ -69,7 +69,7 @@ void click(SparseMatrix S, double *C, double d, double *y0, double *y1,
 }
 
 int solve(SparseMatrix S, double *C, double d, double *y0, double *y, double epsilon,
-		void (* spmv)(double *, SparseMatrix, double *),int startIdx, int endIdx) {
+		void (* spmv)(double *, SparseMatrix, double *, int startIdx, int endIdx),int startIdx, int endIdx) {
 // repeat click until two successive y's are closer than epsilon.
 // y0 is the initial probability distribution vector.
 // Upon return y is the final vector, the page rank vector.

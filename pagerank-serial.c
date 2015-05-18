@@ -12,7 +12,7 @@
 // ...or I put it right here:
 void serial_mvpSM(double * w, SparseMatrix S, double * z, int startIdx, int endIdx) {
 	// this is a stub.  ..replace this with an improved serial matrix vector product.
-	strawman_mvpSM(w, S, z, int startIdx, int endIdx);
+	strawman_mvpSM(w, S, z, startIdx, endIdx);
 }
 /////////////////////////////////////////////////////////////
 
