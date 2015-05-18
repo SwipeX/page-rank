@@ -6,13 +6,13 @@ void scale(double *C, SparseMatrix S) ;
 // Convert S from link matrix to stochastic matrix.
 // Also set C to the column sums of the original link matrix.
 
-void strawman_mvpSM(double * y, SparseMatrix S, double *x) ;
+void strawman_mvpSM(double * y, SparseMatrix S, double *x, int startIdx, int endIdx) ;
 // Matrix-vector product, Sparse Matrix:
 // For length S->rowdim vector y, length S->coldim vector x, compute y = S*x.
 
 // random surfer clicks a link
 void click(SparseMatrix S, double *C, double d, double *y0, double *y1,
-		void (* spmv)(double *z, SparseMatrix S, double *y0)) ;
+		void (* spmv)(double *z, SparseMatrix S, double *y0), int startIdx, int endIdx) ;
 // compute y1 = (1-d)*u + d*S*y0. 
 // d is the damping parameter
 // y0 is the initial probability distribution vector.
