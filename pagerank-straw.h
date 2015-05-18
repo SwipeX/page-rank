@@ -12,7 +12,7 @@ void strawman_mvpSM(double * y, SparseMatrix S, double *x, int startIdx, int end
 
 // random surfer clicks a link
 void click(SparseMatrix S, double *C, double d, double *y0, double *y1,
-		void (* spmv)(double *z, SparseMatrix S, double *y0), int startIdx, int endIdx) ;
+		void (* spmv)(double *z, SparseMatrix S, double *y0, int startIdx, int endIdx), int startIdx, int endIdx) ;
 // compute y1 = (1-d)*u + d*S*y0. 
 // d is the damping parameter
 // y0 is the initial probability distribution vector.
@@ -21,7 +21,7 @@ void click(SparseMatrix S, double *C, double d, double *y0, double *y1,
 
 
 int solve(SparseMatrix S, double *C, double d, double *y0, double *y, double epsilon,
-		void (* spmv)(double * w, SparseMatrix S, double * z), int startIdx, int endIdx) ;
+		void (* spmv)(double * w, SparseMatrix S, double * z, int startIdx, int endIdx), int startIdx, int endIdx) ;
 // Repeat click until two successive y's are closer than epsilon.
 // d is the damping parameter
 // y0 is the initial probability distribution vector.
