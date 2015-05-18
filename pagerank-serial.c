@@ -10,9 +10,9 @@
 // The imagined pagerank-serial.h contains my (student) serial_mvpSM and possibly other reworked functions.
 //#include "pagerank-serial.h"
 // ...or I put it right here:
-void serial_mvpSM(double * w, SparseMatrix S, double * z) {
+void serial_mvpSM(double * w, SparseMatrix S, double * z, int startIdx, int endIdx) {
 	// this is a stub.  ..replace this with an improved serial matrix vector product.
-	strawman_mvpSM(w, S, z);
+	strawman_mvpSM(w, S, z, int startIdx, int endIdx);
 }
 /////////////////////////////////////////////////////////////
 
