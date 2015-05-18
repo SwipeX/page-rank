@@ -80,7 +80,7 @@ int solve(SparseMatrix S, double *C, double d, double *y0, double *y, double eps
 	double *x = (double *) malloc(S->coldim*sizeof(double));
 	for (i = 0; i < S->coldim; ++i) x[i] = y0[i];
 	do {
-		click(S, C, d, x, y, spmv,int startIdx, int endIdx);
+		click(S, C, d, x, y, spmv, startIdx, endIdx);
 		++iters;
 		disq = vecdistsq(y, x, S->coldim);
 		for (i = 0; i < S->coldim; ++i) x[i] = y[i]; // prep for next iter.
