@@ -6,13 +6,13 @@ void scale(double *C, SparseMatrix S) ;
 // Convert S from link matrix to stochastic matrix.
 // Also set C to the column sums of the original link matrix.
 
-void strawman_mvpSM(double * y, SparseMatrix S, double *x, int startIdx, int endIdx) ;
+void strawman_mvpSM(double * y, SparseMatrix S, double *x, int size, int rank) ;
 // Matrix-vector product, Sparse Matrix:
 // For length S->rowdim vector y, length S->coldim vector x, compute y = S*x.
 
 // random surfer clicks a link
 void click(SparseMatrix S, double *C, double d, double *y0, double *y1,
-		void (* spmv)(double *z, SparseMatrix S, double *y0, int startIdx, int endIdx), int startIdx, int endIdx) ;
+		void (* spmv)(double *z, SparseMatrix S, double *y0, int size, int rank), int size, int rank) ;
 // compute y1 = (1-d)*u + d*S*y0. 
 // d is the damping parameter
 // y0 is the initial probability distribution vector.
@@ -21,7 +21,7 @@ void click(SparseMatrix S, double *C, double d, double *y0, double *y1,
 
 
 int solve(SparseMatrix S, double *C, double d, double *y0, double *y, double epsilon,
-		void (* spmv)(double * w, SparseMatrix S, double * z, int startIdx, int endIdx), int startIdx, int endIdx) ;
+		void (* spmv)(double * w, SparseMatrix S, double * z, int size, int rank), int size, int rank) ;
 // Repeat click until two successive y's are closer than epsilon.
 // d is the damping parameter
 // y0 is the initial probability distribution vector.
@@ -32,15 +32,15 @@ int solve(SparseMatrix S, double *C, double d, double *y0, double *y, double eps
 
 /////// implementations ///////////////
 
-void strawman_mvpSM(double * y, SparseMatrix S, double *x, int startIdx, int endIdx) {
+void strawman_mvpSM(double * y, SparseMatrix S, double *x, int size, int rank) {
 // Matrix-vector product, Sparse Matrix:
 // For length S->rowdim vector y, length S->coldim vector x, compute y = S*x.
     double * local;
 	local = y;
 	int i,k;
-	int size = (S->nnz +startIdx-1)/startIdx;
-	int sIdx = endIdx *size;
-	int eIdx = sIdx+size;
+	int blockSize = (S->nnz +size-1)/size;
+	int sIdx = rank *blockSize;
+	int eIdx = sIdx+blockSize;
 	for (i = 0; i < S->rowdim; ++i){
 	local[i] = 0;
 	}
@@ -62,10 +62,10 @@ void scale(double *C, SparseMatrix S) {
 }
 
 void click(SparseMatrix S, double *C, double d, double *y0, double *y1,
-		void (* spmv)(double *, SparseMatrix, double *, int startIdx, int endIdx),int startIdx, int endIdx) {
+		void (* spmv)(double *, SparseMatrix, double *, int size, int rank),int size, int rank) {
 // compute y1 = (1-d)u + d S y0.
 	int i;
-	spmv(y1, S, y0, startIdx, endIdx);
+	spmv(y1, S, y0, size, rank);
 	// true S is given S + 1/n's in cols where given S is entirely zero.
 	// get the contribution of the zero columns 
 	double xs = 0;
@@ -79,7 +79,7 @@ void click(SparseMatrix S, double *C, double d, double *y0, double *y1,
 }
 
 int solve(SparseMatrix S, double *C, double d, double *y0, double *y, double epsilon,
-		void (* spmv)(double *, SparseMatrix, double *, int startIdx, int endIdx),int startIdx, int endIdx) {
+		void (* spmv)(double *, SparseMatrix, double *, int size, int rank),int size, int rank) {
 // repeat click until two successive y's are closer than epsilon.
 // y0 is the initial probability distribution vector.
 // Upon return y is the final vector, the page rank vector.
@@ -90,7 +90,7 @@ int solve(SparseMatrix S, double *C, double d, double *y0, double *y, double eps
 	double *x = (double *) malloc(S->coldim*sizeof(double));
 	for (i = 0; i < S->coldim; ++i) x[i] = y0[i];
 	do {
-		click(S, C, d, x, y, spmv, startIdx, endIdx);
+		click(S, C, d, x, y, spmv, size, rank);
 		++iters;
 		disq = vecdistsq(y, x, S->coldim);
 		for (i = 0; i < S->coldim; ++i) x[i] = y[i]; // prep for next iter.
