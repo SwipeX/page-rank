@@ -62,12 +62,10 @@ int main(int argc, char* argv[]){
 	MPI_Comm_size(MPI_COMM_WORLD, &size);
 	int rank;
 	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-	int blockSize = (S->nnz +size-1)/size;
-	int startIdx = rank*blockSize;
-	int endIdx = startIdx+size;
+
 	
 	start = MPI_Wtime();
-	iters = solve(S, C, d, y0, y, eps, strawman_mvpSM,startIdx, endIdx);
+	iters = solve(S, C, d, y0, y, eps, strawman_mvpSM, size, rank);
 	elapsed = MPI_Wtime() - start;
 	printf("final (page rank) probabilities, %d iterations in time %f\n", iters, elapsed);
 	printvec(y, n); printf("\n");

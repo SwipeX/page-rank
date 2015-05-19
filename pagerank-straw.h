@@ -37,13 +37,15 @@ void strawman_mvpSM(double * y, SparseMatrix S, double *x, int startIdx, int end
 // For length S->rowdim vector y, length S->coldim vector x, compute y = S*x.
     double * local;
 	local = y;
-	int i, k;
-
+	int i,k;
+	int size = (S->nnz +size-1)/size;
+	int sIdx = endIdx *size;
+	int eIdx = sIdx+size;
 	for (i = 0; i < S->rowdim; ++i){
 	local[i] = 0;
 	}
 
-	for (k = startIdx; k < S->nnz && k<endIdx; ++k) {
+	for (k = sIdx; k < S->nnz && k<eIdx; ++k) {
 		local[S->row[k]] += S->val[k] * x[S->col[k]];
     }
     MPI_Allreduce(local, y, S->rowdim, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
