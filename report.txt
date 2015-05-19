@@ -1,0 +1,11 @@
+*\
+*README - CISC372 -> Project 2
+*\
+Members: Ryan Serva, Timothy Dekker
+
+Files can still be compiled by running the make command,
+note: the names have not been changed...although MPI has been implemented.
+
+Speedups for 2, 4, 8, 16, 32, 48 processes on 1 compute node:
+
+The best speedups achievable from using 2 Nodes from 2 to 96 are:
