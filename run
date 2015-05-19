@@ -1,0 +1,8 @@
+#!/bin/bash
+clean
+for ((x=2;x<=96;x=$x+2))
+do
+echo $x
+srun -N2 -n $x ./pagerank-serial 1000000
+
+done
