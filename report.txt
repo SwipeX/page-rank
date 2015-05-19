@@ -8,6 +8,8 @@ note: the names have not been changed...although MPI has been implemented.
 
 A graph of the data, along with the data can be found in data-graph.png
 
+The original serial version ran at 10.6s.
+
 Speedups for 2, 4, 8, 16, 32, 48 processes on 1 compute node:
 2: 15.6s
 4: 10.5s
