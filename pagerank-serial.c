@@ -72,5 +72,6 @@ int main(int argc, char* argv[]){
 
 	// good bye
 	free(C); free(y); free(y0); free(SH.row); free(SH.col); free(SH.val);
+	MPI_Finalize();
 	return 0;
 }
