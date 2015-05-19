@@ -38,7 +38,7 @@ void strawman_mvpSM(double * y, SparseMatrix S, double *x, int size, int rank) {
     double * local;
 	local = y;
 	int i,k;
-	int blockSize = (S->nnz +startIdx-1)/startIdx;
+	int blockSize = (S->nnz +size-1)/size;
 	int sIdx = rank *blockSize;
 	int eIdx = size+blockSize;
 	for (i = 0; i < S->rowdim; ++i){
@@ -65,7 +65,7 @@ void click(SparseMatrix S, double *C, double d, double *y0, double *y1,
 		void (* spmv)(double *, SparseMatrix, double *, int size, int rank),int size, int rank) {
 // compute y1 = (1-d)u + d S y0.
 	int i;
-	spmv(y1, S, y0, startIdx, endIdx);
+	spmv(y1, S, y0, size, rank);
 	// true S is given S + 1/n's in cols where given S is entirely zero.
 	// get the contribution of the zero columns 
 	double xs = 0;
