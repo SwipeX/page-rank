@@ -40,7 +40,7 @@ void strawman_mvpSM(double * y, SparseMatrix S, double *x, int size, int rank) {
 	int i,k;
 	int blockSize = (S->nnz +size-1)/size;
 	int startIdx = rank *blockSize;
-	int endIdx = sIdx+blockSize;
+	int endIdx = startIdx+blockSize;
 	for (i = 0; i < S->rowdim; ++i){
 	local[i] = 0;
 	}
