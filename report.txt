@@ -10,6 +10,10 @@ A graph of the data, along with the data can be found in data-graph.png
 
 The original serial version ran at 10.6s.
 
+Summary of the code: We broke up the for loop into seperate processes and used the MPI_REDUCTION to
+copy back to the loop, using a local version of the array.  We used MPI_COMM for size and world to
+break up the array indices.
+
 Speedups for 2, 4, 8, 16, 32, 48 processes on 1 compute node:
 2: 15.6s
 4: 10.5s
