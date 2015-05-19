@@ -7,5 +7,19 @@ Files can still be compiled by running the make command,
 note: the names have not been changed...although MPI has been implemented.
 
 Speedups for 2, 4, 8, 16, 32, 48 processes on 1 compute node:
+2: 15.6s
+4: 10.5s
+8: 8.1s
+16: 7.7s
+32: 2.5s
+48: 
 
 The best speedups achievable from using 2 Nodes from 2 to 96 are:
+2: 6.1
+4: 4.5
+8: 3.6
+16: 2.9
+32: 5.9
+48: 
+64: 
+96: 2.6
